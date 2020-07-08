@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-Lol for now
+
 </body>
 </html>
