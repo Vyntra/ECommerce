@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
 body {
   margin: 0;
@@ -87,14 +88,14 @@ input[type=text] {
 <body>
 <div class=outdiv>
       <div class=leftdiv>
-	<p> ${product.productImage}</p>
+	<p> ${product.image}</p>
       </div>
       <div class=rightdiv>
 	<p>Product Name: ${product.productName}</p><br>
 	<p>Stock : ${product.stock}</p>
 	<p>Product Price is: ${product.price}</p>
-	<p>Product discount : ${product.productdiscount}</p>
-	<p>Product description: ${product.productdescription}</p>
+	<p>Product discount : ${product.discount}</p>
+	<p>Product description: ${product.description}</p>
 	<p>Product Type: ${product.productType.typeName}</p>
 	<p>Product Brand: ${product.productBrand.brandName}</p>
       </div>
