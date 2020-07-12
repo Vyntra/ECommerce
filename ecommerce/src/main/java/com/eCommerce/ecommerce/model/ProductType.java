@@ -25,17 +25,17 @@ public class ProductType {
     @Column(name = "TypeName")
     private String typeName;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            mappedBy = "productType")
-    private List<Product> products;
-
     public ProductType() {
     }
 
     public ProductType(String typeName) {
         this.typeName = typeName;
     }
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "productType")
+    private List<Product> products;
 
     public Long getTypeId() {
         return typeId;

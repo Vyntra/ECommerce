@@ -1,3 +1,7 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,51 +9,22 @@
     <title>Title</title>
 </head>
 <body>
-<form autocomplete="off" id="log" name="form1" action="login" method="post">
+<form autocomplete="off" action="login" method="post">
 	<br>
 	<h3>Log in to your account</h3>
-<div class="page1">
-	Email
-	<input type="Email" name="email" class="rigestration1" placeholder="example@domain.com" autofocus><br><br>
+<div>
+	User Name:
+	<input type="text" name="username" autofocus required><br><br>
 </div>
-<div class="page1">
-	Password
-	<input type="Password" name="pass" class="rigestration1"required><br><br>
-</div>
-<br>
-    <input type="submit" name="submit" value="login" class="rigestration1"required><br><br>
-	<br><br>
-</form>
-
-<form autocomplete="off" id="reg" name="form2" action="register2" method="post">
-	<br>
-	<h3>Your details</h3>
-<div class="page2">
-	Name
-	<input type="text" name="name" class="rigestration2" placeholder="First and last name" required><br><br>
-</div>
-<div class="page2">
-	Password
-	<input type="Password" name="pass" class="rigestration2"required><br><br>
-</div>
-<div class="page2">
-	ConfirmPassword
-	<input type="Password" name="pass2" class="rigestration2"required><br><br>
-</div>
-<div class="page2">
-	Email
-	<input type="Email" name="email" class="rigestration2" placeholder="example@domain.com" autofocus><br><br>
-</div>
-<div class="page2">
-	Phone
-	<input type="tel" name="phone" class="rigestration2" placeholder="eg: 8190009729" required><br><br>
+<div>
+	Password:
+	<input type="Password" name="password" required><br><br>
 </div>
 <br>
-    <input type="submit" name="submit" value="register" class="rigestration2"required><br><br>
-
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="submit" name="submit" value="login" required><br><br>
 	<br><br>
 </form>
-
 
 </body>
 

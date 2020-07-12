@@ -22,6 +22,13 @@ public class ProductBrand {
     @GenericGenerator(name = "incrementator", strategy = "increment")
     private Long brandId;
 
+    public ProductBrand() {
+    }
+
+    public ProductBrand(String brandName) {
+        this.brandName = brandName;
+    }
+
     @Column(name = "BrandName")
     private String brandName;
 
@@ -29,13 +36,6 @@ public class ProductBrand {
             fetch = FetchType.EAGER,
             mappedBy = "productBrand")
     private List<Product> products;
-
-    public ProductBrand(){
-    }
-
-    public ProductBrand(String brandName) {
-        this.brandName = brandName;
-    }
 
     public Long getBrandId() {
         return brandId;

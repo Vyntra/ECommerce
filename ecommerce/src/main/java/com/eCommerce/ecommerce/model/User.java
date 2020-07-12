@@ -3,10 +3,8 @@ package com.eCommerce.ecommerce.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -16,6 +14,9 @@ public class User {
     @GeneratedValue(generator = "incrementator")
     @GenericGenerator(name = "incrementator", strategy = "increment")
     private Long userId;
+
+    @Column(name = "UserName")
+    private String userName;
 
     @Column(name = "FullName")
     private String fullName;
@@ -38,18 +39,21 @@ public class User {
     @Column(name = "Role")
     private String role;
 
-    public User(String fullName, String contactNumber, String email, String password) {
-        this.fullName = fullName;
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            mappedBy = "user")
+    private List<Orders> ordersList;
+
+    @ManyToMany(mappedBy = "userList")
+    private List<BillingAddress> billingAddressList;
+
+    public User(String userName, String contactNumber, String email, String password) {
+        this.userName = userName;
         this.contactNumber = contactNumber;
         this.email = email;
         this.password = password;
+        this.role = "USER";
     }
-
-    // have many to many billing addresses
-
-    //@ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "team_id", nullable = false)
-    //private Team team;
 
     public User() {
     }
@@ -60,6 +64,14 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getFullName() {
@@ -117,4 +129,21 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public List<Orders> getOrdersList() {
+        return ordersList;
+    }
+
+    public void setOrdersList(List<Orders> ordersList) {
+        this.ordersList = ordersList;
+    }
+
+    public List<BillingAddress> getBillingAddressList() {
+        return billingAddressList;
+    }
+
+    public void setBillingAddressList(List<BillingAddress> billingAddressList) {
+        this.billingAddressList = billingAddressList;
+    }
+
 }

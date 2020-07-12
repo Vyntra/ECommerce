@@ -3,6 +3,7 @@ package com.eCommerce.ecommerce.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -35,12 +36,18 @@ public class Product {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productType_id", nullable = false)
+    @JoinColumn(name = "Type_id", nullable = false)
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productBrand_id", nullable = false)
+    @JoinColumn(name = "Brand_id", nullable = false)
     private ProductBrand productBrand;
+
+    @ManyToMany(mappedBy = "productList")
+    private List<Cart> cartList;
+
+    @ManyToMany(mappedBy = "productList")
+    private List<WishList> wishList;
 
     public Product(){
     }
@@ -135,5 +142,13 @@ public class Product {
 
     public void setProductBrand(ProductBrand productBrand) {
         this.productBrand = productBrand;
+    }
+
+    public List<Cart> getCartList() {
+        return cartList;
+    }
+
+    public void setCartList(List<Cart> cartList) {
+        this.cartList = cartList;
     }
 }
