@@ -25,11 +25,11 @@ $(document).on('click','#SubmitProduct',function(){
       var data = "action=" + "save_product" + "&ProductName=" + ProductName + "&Stock=" + Stock + "&Rating="
                + Rating + "&Price=" + Price + "&Discount=" + Discount + "&Image=" + Image + "&Description="
                + Description + "&ProductType=" + ProductType + "&ProductBrand=" + ProductBrand;
-      ajaxUtils(data);
+      ajaxUtils1(data);
 });
 
 
-function ajaxUtils(data){
+function ajaxUtils1(data){
     $.ajax({
         type    : 'POST',
         data    : data,

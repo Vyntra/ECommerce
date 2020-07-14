@@ -9,39 +9,35 @@ body {
 
 .nav {
   overflow: hidden;
-  background-color: grey;
+  background-color: lightblue;
 }
 
-.nav a {
-  float: left;
-  color: black;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 20px;
-  font-family:Georgia;
-font-size:25px;
-}
-input[type=text] {
-  float: left;
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background-color: white;
-  font-size: 17px;
-}
-.some
+.outdiv
 {
-      margin-top:10px;
-      width:200px;
-      border:2px solid black;
-      border-radius:8px;
-      color:black;
-      float:left;
+     margin:50px 250px;
+     width:70%;
+     height:550px;
+     border:3px solid black;
+     border-radius:12px;
 }
-.nav a:hover {
-  background-color: orange;
-  color: black;
+.leftdiv
+{
+     float:left;
+     width:48%;
+     height:99.5%;
+     background-color:blue;
+     border-radius:10px;
+     margin:1px;
+
+}
+.rightdiv
+{
+     margin:1px;
+     float:right;
+     width:50%;
+     height:99.5%;
+     background-color:yellow;
+     border-radius:10px;
 }
 $primary: #5628EE;
 $primaryLight: #8C6FF0;
@@ -787,8 +783,23 @@ html {
 *:before, *:after {
   box-sizing: inherit;
 }
+/*search bar bootsrap code ends*/
+
+.nav_btn {
+	padding: 10px 0px;
+	text-align: center;
+	height: 90px;
+	font-size: 20px;
+}
+
+
+
 
 </style>
+<link rel="stylesheet"
+          href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
@@ -914,31 +925,29 @@ function resizeForText(input, span, text) {
              });
            });
             </script>
+
 </head>
-
-<div class="nav">
-  <a href="#home">Home</a>
-  <a href="#men">Men</a>
-  <a href="#women">Women</a>
-  <a href="#kids">Kids</a>
-  <a href="#about">About</a>
-<div style="display:inline-block">
-    <div class="search">
-        <div class="bar">
-            <div class="icon">
-                <i></i>
-            </div>
-        </div>
-        <form>
-            <input type="text">
-        </form>
-        <div class="close"></div>
-    </div>
+<div >
+        <div class="row nav">
+	<div class=" nav_btn col mx-1"><a href="/">Vyntra</a></div>
+	<div class="nav_btn col mx-1"><a href="/">Types</a></div>
+	<div class="nav_btn col mx-1"><a href="/">Branch</a></div>
+	<div class="nav_btn col mx-1">
+              	          <div class="search">
+                                  <div class="bar">
+                                          <div class="icon">
+                                                 <i></i>
+                                          </div>
+                                  </div>
+                                <form>
+                                       <input type="text">
+                                </form>
+	         </div>
+		<div class="close"></div>
+	</div>
+	<div class="nav_btn col mx-1"><a href="/login">Login</a></div>
+       </div>
 </div>
-</div>
-
-<body>
-</body>
 <div class="footer">
 </div>
 </html>

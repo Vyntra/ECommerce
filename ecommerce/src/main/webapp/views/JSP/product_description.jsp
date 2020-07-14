@@ -8,7 +8,7 @@
     width: 90%;
     margin: 50px auto 0px auto;
 }
-.outdiv
+.productdiv
 {
      width:85%;
      height:600px;
@@ -17,11 +17,11 @@
      background-color:yelow;
      float:left;
 }
-.btndiv{
+.btndivi{
     width: 13%;
     float: right;
 }
-.leftdiv
+.leftproddiv
 {
      float:left;
      width:48%;
@@ -31,7 +31,7 @@
      margin:1px;
 
 }
-.rightdiv
+.rightproddiv
 {
      margin:1px;
      float:right;
@@ -48,11 +48,11 @@
 
 <body>
 <div class="product_description_main container">
-<div class=outdiv>
-      <div class=leftdiv>
+<div class="productdiv">
+      <div class="leftproddiv">
 	<p> ${product.image}</p>
       </div>
-      <div class=rightdiv>
+      <div class="rightproddiv">
 	<p>Product Name: ${product.productName}</p><br>
 	<p>Stock : ${product.stock}</p>
 	<p>Product Price is: ${product.price}</p>
@@ -62,10 +62,10 @@
 	<p>Product Brand: ${product.productBrand.brandName}</p>
       </div>
 </div>
-<div class="btndiv">
-    <button type="button" class="btn btn-primary">Add to wishlist</button>
-    <button type="button" class="btn btn-primary">Add to cart</button>
-    <button type="button" class="btn btn-success">Purchase</button>
+<div class="btndivi">
+    <button type="button" class="btn btn-primary" id="add_to_wishlist">Add to wishlist</button><br><br>
+    <button type="button" class="btn btn-primary" id="add_to_cart">Add to cart</button><br><br>
+    <button type="button" class="btn btn-success" id="purchase">Purchase</button><br><br>
 </div>
 </div>
 </body>

@@ -6,23 +6,24 @@
 
 
     <style>
-     .outdiv
+     .prod
                {
     	min-width:25%;
-    	height:400px;
+    	height:450px;
     	border:2px solid black;
     	border-radius:15px;
     	float: left;
     	margin-right: 50px;
                }
-             .seconddiv
+             .proddetails
               {
-    	margin-left:5px;
+    	margin-left:10px;
+    	margin-top: 10px;
     	background-color:green;
-    	color:black;
+    	color:white;
     	border-radius:10px;
     	width:25%;
-    	height:25px;
+    	height:30px;
     	text-align:center;
                }
                img
@@ -44,12 +45,12 @@
    <c:forEach items="${top_products}" var="product">
 
        <a href="product_description/${product.productId}">
-       <div class="outdiv">
+       <div class="prod">
                         <div>
               	<img src="lips.jpg" width="20%" height="350px" style="border-radius:15px;">
                         </div>
-                        <div class="seconddiv">
-              	<p style="padding:3px;">10%  off</p>
+                        <div class="proddetails">
+              	<p style="padding:3px;">${product.discount} %  off</p>
                         </div>
                         <div>
               	<br><br><br><br><br><br><br><br><br><br><br><br><br>
