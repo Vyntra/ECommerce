@@ -1,3 +1,5 @@
+
+
 $(document).on('click','#SubmitProductType',function(){
       var TypeName = $(this).closest("form").find("input").val();
       var data = "action=" + "save_product_type" + "&TypeName=" + TypeName;
@@ -33,10 +35,8 @@ function ajaxUtils(data){
         data    : data,
         url     : 'admin_edits',
         success : function(response){
-            console.log(response);
         },
         error   : function(response){
-
         }
     });
 }

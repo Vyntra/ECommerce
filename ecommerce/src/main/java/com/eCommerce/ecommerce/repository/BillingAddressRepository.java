@@ -1,4 +1,7 @@
 package com.eCommerce.ecommerce.repository;
 
-public class BillingAddressRepository {
+import com.eCommerce.ecommerce.model.BillingAddress;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BillingAddressRepository extends JpaRepository<BillingAddress, Long> {
 }

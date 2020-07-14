@@ -34,6 +34,7 @@
 	<input type="tel" name="phone" required><br><br>
 </div>
 <br>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <input type="submit" name="submit" value="register" required><br><br>
 
 	<br><br>

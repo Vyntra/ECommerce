@@ -5,11 +5,26 @@
     <title>Admin Dashboard</title>
     <link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
-    <script type="text/javascript" src="webjars/jquery/3.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="JS/jquery.min.js"></script>
     <script type="text/javascript" src="JS/admin_dashboard.js"></script>
 
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+
+    <script>
+   $(function () {
+     var token = $("meta[name='_csrf']").attr("content");
+     var header = $("meta[name='_csrf_header']").attr("content");
+     $(document).ajaxSend(function(e, xhr, options) {
+       xhr.setRequestHeader(header, token);
+     });
+   });
+    </script>
+
 </head>
+
 <body>
+<input type="hidden" id="csrfToken" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <form>
             Product Type Header
             Product Type: <br>

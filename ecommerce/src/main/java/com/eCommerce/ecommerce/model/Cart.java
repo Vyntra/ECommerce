@@ -26,6 +26,10 @@ public class Cart {
     public Cart(){
     }
 
+    public Cart(User user) {
+        this.user = user;
+    }
+
     public Cart(User user, List<Product> productList, Long cartCost) {
         this.user = user;
         this.productList = productList;
