@@ -1,5 +1,6 @@
 package com.eCommerce.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,7 @@ public class ProductType {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "productType")
+    @JsonManagedReference
     private List<Product> products;
 
     public Long getTypeId() {

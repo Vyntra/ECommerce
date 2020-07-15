@@ -1,5 +1,6 @@
 package com.eCommerce.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -37,10 +38,12 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Type_id", nullable = false)
+    @JsonBackReference
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Brand_id", nullable = false)
+    @JsonBackReference
     private ProductBrand productBrand;
 
     @ManyToMany(mappedBy = "productList")

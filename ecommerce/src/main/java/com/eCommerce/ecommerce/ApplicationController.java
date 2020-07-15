@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,17 +74,15 @@ public class ApplicationController {
 
     // User Controller
     @GetMapping("/get_user_billing_addresses")
-    public @ResponseBody String get_user_billing_addresses(HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody List<BillingAddress> get_user_billing_addresses(HttpServletRequest request, ModelMap modelMap){
 
         User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
         if(logged_in_user != null){
-            modelMap.addAttribute("address_list",logged_in_user.getBillingAddressList());
+            return logged_in_user.getBillingAddressList();
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to get your billing addresses!!");
+            return null;
         }
-        return "yes";
     }
 
     // Admin Controller
@@ -203,7 +202,7 @@ public class ApplicationController {
             }
         }
         else{
-            modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+            return "Sorry! This product doesn't exists anymore!!";
         }
 
         return result;
@@ -248,15 +247,15 @@ public class ApplicationController {
 
                 }
                 else{
-                    modelMap.addAttribute("error","Sorry! This wishlist doesn't exists anymore!!");
+                    return "Sorry! This wishlist doesn't exists anymore!!";
                 }
             }
             else{
-                modelMap.addAttribute("error", "Please Log in to manage your cart");
+                return "Please Log in to manage your cart";
             }
         }
         else{
-            modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+            return "Sorry! This product doesn't exists anymore!!";
         }
 
         return result;
@@ -284,11 +283,11 @@ public class ApplicationController {
                 result = "yes";
             }
             else{
-                modelMap.addAttribute("error","Sorry! This wishlist doesn't exists anymore!!");
+                return "Sorry! This wishlist doesn't exists anymore!!";
             }
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to manage your cart");
+            return "Please Log in to manage your cart";
         }
 
         return result;
@@ -307,8 +306,7 @@ public class ApplicationController {
             if(logged_in_user != null){
                 wishList = ordersService.getWishlistByUser(logged_in_user);
                 if(wishList == null){
-                    modelMap.addAttribute("error","Sorry! This wishlist doesn't exists anymore!!");
-                    return result;
+                    return "Sorry! This wishlist doesn't exists anymore!!";
                 }
             }
             else{
@@ -318,8 +316,7 @@ public class ApplicationController {
                     wishList = optionalWishList.get();
                 }
                 else{
-                    modelMap.addAttribute("error","Sorry! This wishlist doesn't exists anymore!!");
-                    return result;
+                    return "Sorry! This wishlist doesn't exists anymore!!";
                 }
             }
 
@@ -341,15 +338,14 @@ public class ApplicationController {
             result = "yes";
         }
         else{
-            modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+            return "Sorry! This product doesn't exists anymore!!";
         }
 
-        return "yes";
+        return result;
     }
 
     @GetMapping("/add_to_logged_wishlist/{wishlistId}")
-    public @ResponseBody String add_to_logged_wishlist(@PathVariable String wishlistId, HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody void add_to_logged_wishlist(@PathVariable String wishlistId, HttpServletRequest request, ModelMap modelMap){
 
         Optional<WishList> optionalAnonymousWishList = ordersService.getByWishListId(Long.parseLong(wishlistId));
 
@@ -367,37 +363,38 @@ public class ApplicationController {
 
                 ordersService.deleteWishList(anonymousWishList);
                 ordersService.saveWishList(wishList);
-                result = "yes";
             }
         }
-
-        return result;
     }
 
     @GetMapping("/get_wishlist_products/{wishlistId}")
-    public @ResponseBody String get_wishlist_products(@PathVariable String wishlistId, HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody List<Product> get_wishlist_products(@PathVariable String wishlistId, HttpServletRequest request, ModelMap modelMap){
 
         User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
         WishList wishList = null;
 
         if(logged_in_user != null){
             wishList = ordersService.getWishlistByUser(logged_in_user);
-            modelMap.addAttribute("products", wishList.getProductList());
+            return wishList.getProductList();
         }
         else{
             Optional<WishList> optionalWishList = ordersService.getByWishListId(Long.parseLong(wishlistId));
 
             if(optionalWishList.isPresent()){
                 wishList = optionalWishList.get();
-                modelMap.addAttribute("products", wishList.getProductList());
+                return wishList.getProductList();
             }
         }
-        result = "yes";
-        return result;
+        return null;
     }
 
     // Cart controller
+
+    @RequestMapping("/cart")
+    public String cart(){
+        return "cart";
+    }
+
 
     @GetMapping("/add_to_cart/{productId}")
     public @ResponseBody String add_to_cart(@PathVariable String productId, HttpServletRequest request, ModelMap modelMap){
@@ -421,11 +418,11 @@ public class ApplicationController {
                 result = "yes";
             }
             else{
-                modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+                return "Sorry! This product doesn't exists anymore!!";
             }
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to manage your cart");
+            return  "Please Log in to manage your cart";
         }
         return result;
     }
@@ -463,19 +460,19 @@ public class ApplicationController {
                         result = "yes";
                     }
                     else{
-                        modelMap.addAttribute("error","Your Cart doesn't have this product! Please reload the page");
+                        return "Your Cart doesn't have this product! Please reload the page";
                     }
                 }
                 else{
-                    modelMap.addAttribute("error","Your Cart is empty! Please reload the page");
+                    return "Your Cart is empty! Please reload the page";
                 }
             }
             else{
-                modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+                return "Sorry! This product doesn't exists anymore!!";
             }
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to manage your cart");
+            return  "Please Log in to manage your cart";
         }
         return result;
     }
@@ -501,40 +498,54 @@ public class ApplicationController {
                         result = "yes";
                     }
                     else{
-                        modelMap.addAttribute("error","Your Cart doesn't have this product! Please reload the page");
+                        return "Your Cart doesn't have this product! Please reload the page";
                     }
                 }
                 else{
-                    modelMap.addAttribute("error","Your Cart is empty! Please reload the page");
+                    return "Your Cart is empty! Please reload the page";
                 }
             }
             else{
-                modelMap.addAttribute("error","Sorry! This product doesn't exists anymore!!");
+                return "Sorry! This product doesn't exists anymore!!";
             }
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to manage your cart");
+            return  "Please Log in to manage your cart";
         }
         return result;
     }
 
 
     @GetMapping("/get_cart_products")
-    public @ResponseBody String get_Cart_products(HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody List<Product> get_Cart_products(HttpServletRequest request, ModelMap modelMap){
+
         User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
         if(logged_in_user != null){
             Cart cart = ordersService.getCartByUser(logged_in_user);
 
             if(cart != null){
-                modelMap.addAttribute("products", cart.getProductList());
+                return cart.getProductList();
             }
         }
         else{
-            modelMap.addAttribute("error", "Please Log in to manage your cart");
+            return  null;
         }
-        return result;
+        return null;
     }
+
+
+    //Product Controller
+
+    @GetMapping("/get_all_types")
+    public @ResponseBody List<ProductType> get_all_types(HttpServletRequest request, ModelMap modelMap){
+        return productService.getAllTypes();
+    }
+
+    @GetMapping("/get_all_brands")
+    public @ResponseBody List<ProductBrand> get_all_brands(HttpServletRequest request, ModelMap modelMap){
+        return productService.getAllBrands();
+    }
+
 
 
 }
