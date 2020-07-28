@@ -15,11 +15,11 @@ public class OrderProduct {
     private Long price;
 
     @Column(name = "Discount")
-    private Long discount;
+    private Integer discount;
 
     public OrderProduct(){}
 
-    public OrderProduct(OrderProductId orderProductId, Long quantity, Long price, Long discount) {
+    public OrderProduct(OrderProductId orderProductId, Long quantity, Long price, Integer discount) {
         this.orderProductId = orderProductId;
         this.quantity = quantity;
         this.price = price;
@@ -50,11 +50,11 @@ public class OrderProduct {
         this.price = price;
     }
 
-    public Long getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Long discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 }

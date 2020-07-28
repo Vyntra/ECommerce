@@ -3,13 +3,13 @@
 $(document).on('click','#SubmitProductType',function(){
       var TypeName = $(this).closest("form").find("input").val();
       var data = "action=" + "save_product_type" + "&TypeName=" + TypeName;
-      ajaxUtils(data);
+      ajaxUtils1(data);
 });
 
 $(document).on('click','#SubmitProductBrand',function(){
       var BrandName = $(this).closest("form").find("input").val();
       var data = "action=" + "save_product_brand" + "&BrandName=" + BrandName;
-      ajaxUtils(data);
+      ajaxUtils1(data);
 });
 
 $(document).on('click','#SubmitProduct',function(){
@@ -35,8 +35,10 @@ function ajaxUtils1(data){
         data    : data,
         url     : 'admin_edits',
         success : function(response){
+          console.log("ajaxUtils1 call success");
         },
         error   : function(response){
+          console.log("ajaxUtils1 call error");
         }
     });
 }

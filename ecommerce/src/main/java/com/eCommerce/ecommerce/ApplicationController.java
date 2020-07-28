@@ -2,20 +2,19 @@ package com.eCommerce.ecommerce;
 
 
 import com.eCommerce.ecommerce.model.*;
+import com.eCommerce.ecommerce.security.ActiveUserStore;
 import com.eCommerce.ecommerce.service.OrdersService;
 import com.eCommerce.ecommerce.service.ProductService;
 import com.eCommerce.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class ApplicationController {
@@ -28,6 +27,9 @@ public class ApplicationController {
 
     @Autowired
     OrdersService ordersService;
+
+    @Autowired
+    ActiveUserStore activeUserStore;
 
     @RequestMapping("/")
     public String home(ModelMap modelMap){
@@ -85,6 +87,12 @@ public class ApplicationController {
         }
     }
 
+    @GetMapping("/loggedUsers")
+    public String getLoggedUsers(Locale locale, Model model) {
+        model.addAttribute("users", activeUserStore.getUsers());
+        return "users";
+    }
+
     // Admin Controller
 
     @GetMapping("/admin_dashboard")
@@ -123,7 +131,7 @@ public class ApplicationController {
             ProductType productType = productService.getProductType(productType_string);
             ProductBrand productBrand = productService.getProductBrand(productBrand_string);
 
-            Product newProduct = new Product(productName, Long.parseLong(stock), Long.parseLong(rating), Double.parseDouble(price), Double.parseDouble(discount), image, description, productType, productBrand);
+            Product newProduct = new Product(productName, Long.parseLong(stock), Long.parseLong(rating), Double.parseDouble(price), Integer.parseInt(discount), image, description, productType, productBrand);
             productService.saveProduct(newProduct);
             result = "yes";
         }
@@ -163,7 +171,6 @@ public class ApplicationController {
 
     @GetMapping("/add_to_wishlist/{productId}/{wishListId}")
     public @ResponseBody String add_to_wishlist(@PathVariable String productId, @PathVariable String wishListId,HttpServletRequest request, ModelMap modelMap){
-
         String result = "no";
 
         Optional<Product> optional_product = productService.findByProductId(Long.parseLong(productId));
@@ -190,6 +197,9 @@ public class ApplicationController {
             }
 
             List<Product> productList = wishList.getProductList();
+            if(productList.contains(product)){
+                return "This product is already added to wishlist!";
+            }
             productList.add(product);
             wishList.setProductList(productList);
 
@@ -323,7 +333,7 @@ public class ApplicationController {
             Product product = optionalProduct.get();
 
             List<Product> productList = wishList.getProductList();
-            productList.remove(product);
+            productList.removeAll(Collections.singleton(product));
 
             if(productList.isEmpty()){
                 ordersService.deleteWishList(wishList);

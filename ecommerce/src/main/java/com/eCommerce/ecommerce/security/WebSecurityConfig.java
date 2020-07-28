@@ -1,4 +1,4 @@
-package com.eCommerce.ecommerce;
+package com.eCommerce.ecommerce.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/JS/**", "/CSS/**").permitAll()
+                .antMatchers("/resources/**", "/JS/**", "/CSS/**", "/IMAGES/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutSuccessUrl("/login")
                 .permitAll();
     }
 

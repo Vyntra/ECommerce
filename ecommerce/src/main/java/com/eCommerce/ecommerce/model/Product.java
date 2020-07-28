@@ -28,7 +28,7 @@ public class Product {
     private Double price;
 
     @Column(name = "Discount")
-    private Double discount;
+    private Integer discount;
 
     @Column(name = "Image")
     private String image;
@@ -55,7 +55,7 @@ public class Product {
     public Product(){
     }
 
-    public Product(String productName, Long stock, Long rating, Double price, Double discount, String image, String description, ProductType productType, ProductBrand productBrand) {
+    public Product(String productName, Long stock, Long rating, Double price, Integer discount, String image, String description, ProductType productType, ProductBrand productBrand) {
         this.productName = productName;
         this.stock = stock;
         this.rating = rating;
@@ -107,11 +107,11 @@ public class Product {
         this.price = price;
     }
 
-    public Double getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 

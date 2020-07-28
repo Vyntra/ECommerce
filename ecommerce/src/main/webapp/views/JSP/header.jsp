@@ -3,15 +3,17 @@
 <head>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<link rel="stylesheet" href="CSS/style.css">
+<link rel="stylesheet" href="/CSS/style.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!--<script type="text/javascript" src="JS/jquery.min.js"></script>-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script type="text/javascript" src="JS/main.js"></script>
+
+<script type="text/javascript" src="/JS/main.js"></script>
 
 <!--csrf token code starts-->
 
@@ -48,10 +50,21 @@
         <form>
           <input type="text">
         </form>
+        <div class="close"></div>
       </div>
-      <div class="close"></div>
     </div>
-    <div class="nav_btn col"><a href="/login">Login</a></div>
+    <div class="nav_btn col" id="Cart">
+      <a class="alink" href="/"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
+    </div>
+    <div class="nav_btn col">
+      <% String username= (String) session.getAttribute("user");
+         if (username == null) { %>
+              <a class="alink" href="/login">Login</a>
+
+      <% } else { %>
+              <a class="alink" href="/logout">Logout</a>
+      <% }%>
+    </div>
   </div>
 </div>
 
@@ -67,6 +80,10 @@
     <div class="col"></div>
     <div class="col-9" id="ProductBrandsParentDiv"><div class="col-11 row" id="ProductBrands"></div></div>
   </div>
+</div>
+
+<div id="WishlistDiv">
+  <a class="alink" href="/"><i class="fa fa-shopping-bag fa-2x" aria-hidden="true"></i></a>
 </div>
 
 </html>

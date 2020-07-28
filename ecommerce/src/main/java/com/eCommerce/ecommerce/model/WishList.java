@@ -3,6 +3,7 @@ package com.eCommerce.ecommerce.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +21,12 @@ public class WishList {
     private List<Product> productList;
 
     public WishList() {
+        productList = new ArrayList<>();
     }
 
     public WishList(User user) {
         this.user = user;
+        productList = new ArrayList<>();
     }
 
     public Long getWishListId() {

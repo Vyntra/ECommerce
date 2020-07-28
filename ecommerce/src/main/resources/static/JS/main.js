@@ -1,7 +1,42 @@
 
 //Common js code of all pages
 
+function ajaxUtils2(url, box, purpose){
 
+    $.ajax({
+        type    : 'GET',
+        url     : url,
+        contentType : 'application/json',
+        success : function(response){
+            if(purpose === 'display_types_brands'){
+                $.each(response, function(key, value){ //product_description/
+                    if(box == '#ProductTypes'){
+                        var childNode = "<div class='col-3'><a class='alink' href='#'>"+value.typeName+"</a></div>";
+                    }
+                    else{
+                        var childNode = "<div class='col-3'><a class='alink' href='#'>"+value.brandName+"</a></div>";
+                    }
+                    $(box).append(childNode);
+                });
+            }
+            else if(purpose === 'add_to_wishlist'){
+                console.log("here2");
+                if(response === 'yes'){
+                    console.log('${wishlist_id}');
+                }
+                else if(response === 'no'){
+
+                }
+                else{
+
+                }
+            }
+        },
+        error : function(response){
+            console.log(response);
+        }
+    });
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //header.jsp js code starts
@@ -61,6 +96,7 @@ $(document).ready(function() {
                     }, 800);
                 }, 1250);
             }
+
         });
 
         close.on('click', function(e) {
@@ -109,33 +145,9 @@ function resizeForText(input, span, text) {
 $(document).ready(function(){
     $("#ProductBrandsParentDiv").hide();
     $("#ProductTypesParentDiv").hide();
-    var types = ajaxUtils2('get_all_types','');
-    ajaxUtils2('get_all_types','ProductTypes');
-    ajaxUtils2('get_all_brands','ProductBrands');
+    ajaxUtils2('/get_all_types','#ProductTypes', 'display_types_brands');
+    ajaxUtils2('/get_all_brands','#ProductBrands', 'display_types_brands');
 });
-
-function ajaxUtils2(url, box){
-
-    $.ajax({
-        type    : 'GET',
-        url     : url,
-        contentType : 'application/json',
-        success : function(response){
-            $.each(response, function(key, value){ //product_description/
-                if(box == 'ProductTypes'){
-                    var childNode = "<div class='col-3'><a class='alink' href='#'>"+value.typeName+"</a></div>";
-                }
-                else{
-                    var childNode = "<div class='col-3'><a class='alink' href='#'>"+value.brandName+"</a></div>";
-                }
-                $("#"+box).append(childNode);
-            });
-        },
-        error : function(response){
-            console.log(response);
-        }
-    });
-}
 
 $(document).on('mouseover','#Types',function(){
     $("#ProductBrandsParentDiv").hide();
@@ -180,14 +192,16 @@ $(document).on('mouseout','#ProductBrandsParentDiv',function(){
 
 //home.jsp js code starts
 $(document).ready(function(){
-    advertisement();
+    if($('#Advertisements')){
+        advertisement();
+    }
 });
 
 
 function advertisement() {
     var randomColor1 = '#'+Math.floor(Math.random()*16777215).toString(16);
     var randomColor2 = '#'+Math.floor(Math.random()*16777215).toString(16);
-    document.getElementById("Advertisements").style.backgroundImage = "linear-gradient(to right bottom, "+randomColor1+", "+randomColor2+")";
+    $("#Advertisements").css('background-image','linear-gradient(to right bottom, '+randomColor1+', '+randomColor2+')');
     setTimeout(function(){ advertisement() }, 3000);
 }
 
@@ -197,10 +211,11 @@ function advertisement() {
 
 //product_descriptor.jsp js code starts
 
-$(document).on('click','add_to_wishlist',function(){
+$(document).on('click','#add_to_wishlist',function(){
     var wishlistId = -1; //change this
-    var url = 'add_to_wishlist/${product.productId}/'+wishlistId;
-    ajaxUtils2(url,'');
+    var url = '/add_to_wishlist/${product.productId}/'+wishlistId;
+    console.log(url);
+    ajaxUtils2(url,'','add_to_wishlist');
 });
 
 

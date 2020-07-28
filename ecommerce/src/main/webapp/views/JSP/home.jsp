@@ -21,9 +21,11 @@
 
       <div class="ProductBox">
 
-        <div class="ProductDiscount">
-          ${product.discount} %  off
-        </div>
+        <c:if test="${product.discount > 0}">
+          <div class="ProductDiscount">
+            ${product.discount} %  off
+          </div>
+        </c:if>
 
         <div class="ProductImage">
           <!--<img src="lips.jpg" width="20%" height="350px" style="border-radius:15px;">-->
