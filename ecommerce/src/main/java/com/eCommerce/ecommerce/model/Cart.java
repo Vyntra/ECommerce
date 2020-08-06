@@ -3,6 +3,7 @@ package com.eCommerce.ecommerce.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,20 +21,17 @@ public class Cart {
     @ManyToMany()
     private List<Product> productList;
 
-    @Column(name = "CartCost")
-    private Long cartCost;
-
     public Cart(){
     }
 
     public Cart(User user) {
         this.user = user;
+        this.productList = new ArrayList<Product>();
     }
 
-    public Cart(User user, List<Product> productList, Long cartCost) {
+    public Cart(User user, List<Product> productList) {
         this.user = user;
         this.productList = productList;
-        this.cartCost = cartCost;
     }
 
     public Long getCartId() {
@@ -58,13 +56,5 @@ public class Cart {
 
     public void setProductList(List<Product> productList) {
         this.productList = productList;
-    }
-
-    public Long getCartCost() {
-        return cartCost;
-    }
-
-    public void setCartCost(Long cartCost) {
-        this.cartCost = cartCost;
     }
 }

@@ -1,7 +1,7 @@
 
 //Common js code of all pages
 
-function ajaxUtils2(url, box, purpose){
+function ajaxUtils2(url, purpose, box=''){
 
     $.ajax({
         type    : 'GET',
@@ -19,17 +19,26 @@ function ajaxUtils2(url, box, purpose){
                     $(box).append(childNode);
                 });
             }
-            else if(purpose === 'add_to_wishlist'){
-                console.log("here2");
-                if(response === 'yes'){
-                    console.log('${wishlist_id}');
+            else if(purpose === 'add_to_wishlist'){ //header
+                showBanner(response[0],response[1]);
+                if(response[2]){
+                    sessionStorage.setItem("wishlistId", response[2]);
                 }
-                else if(response === 'no'){
-
-                }
-                else{
-
-                }
+            }
+            else if(purpose === 'add_to_cart'){
+                showBanner(response[0],response[1]);
+            }
+            else if(purpose === 'WishBag'){
+                $.each(response, function(key, value){ //header
+                    var itemHTML = '<div class="WishItem"><div class="WishItemPic"></div><div class="WishItemDetails">'+
+                                    '<div class="WishItemText"><h4>'+value.productName+'</h4>'+
+                                    '<p><i><span>'+value.productType+'</span><span>.</span><span>'+value.productBrand+'</span></i></p>'+
+                                    '<p>Price : Rs. '+value.price+'</p>'+
+                                    '<p>Rating: </p>'+
+                                    '</div><div class="WishItemButtons"><button class="btn btn-primary">Add to cart</button></div>'+
+                                    '<div class="WishItemDelete"><i class="fas fa-trash-alt fa-lg text-danger"></i></div></div></div>';
+                    $("#WishItemsContainer").append(itemHTML);
+                });
             }
         },
         error : function(response){
@@ -145,8 +154,8 @@ function resizeForText(input, span, text) {
 $(document).ready(function(){
     $("#ProductBrandsParentDiv").hide();
     $("#ProductTypesParentDiv").hide();
-    ajaxUtils2('/get_all_types','#ProductTypes', 'display_types_brands');
-    ajaxUtils2('/get_all_brands','#ProductBrands', 'display_types_brands');
+    ajaxUtils2('/get_all_types', 'display_types_brands', '#ProductTypes');
+    ajaxUtils2('/get_all_brands', 'display_types_brands', '#ProductBrands');
 });
 
 $(document).on('mouseover','#Types',function(){
@@ -186,6 +195,44 @@ $(document).on('mouseout','#ProductBrandsParentDiv',function(){
     $("#ProductBrandsParentDiv").hide();
 });
 
+// Banner code
+function showBanner(class_type, message){
+    var banner = $("#banner");
+
+    banner.attr("class","");
+    banner.hide();
+    banner.addClass("banner_"+class_type);
+    banner.text(message);
+    banner.show();
+    banner.addClass("banner_animate");
+}
+
+// WishBag Code
+$(document).on('click','#WishlistDiv',function(){
+    $("#WishDream").fadeIn();
+    $("#WishBag").fadeIn();
+    populateWishBag();
+});
+
+$(document).on('click','#WishBagClose',function(){
+    $("#WishDream").fadeOut();
+    $("#WishBag").fadeOut();
+    setTimeout(function(){
+        $("#WishItemsContainer").empty();
+    },500);
+});
+
+function populateWishBag(){
+    var wishlistId;
+    if(sessionStorage.getItem('wishlistId') === null){
+        wishlistId = "-1";
+    }
+    else{
+        wishlistId = sessionStorage.getItem('wishlistId');
+    }
+    ajaxUtils2('/get_wishlist_products/'+wishlistId,'WishBag');
+}
+
 //header.jsp js code ends
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,10 +259,22 @@ function advertisement() {
 //product_descriptor.jsp js code starts
 
 $(document).on('click','#add_to_wishlist',function(){
-    var wishlistId = -1; //change this
-    var url = '/add_to_wishlist/${product.productId}/'+wishlistId;
-    console.log(url);
-    ajaxUtils2(url,'','add_to_wishlist');
+    var wishlistId;
+    if(sessionStorage.getItem('wishlistId') === null){
+        wishlistId = "-1";
+    }
+    else{
+        wishlistId = sessionStorage.getItem('wishlistId');
+    }
+    var productId = $(this).attr('data-product_id');
+    var url = '/add_to_wishlist/'+ productId +'/'+ wishlistId;
+    ajaxUtils2(url, 'add_to_wishlist');
+});
+
+$(document).on('click','#add_to_cart',function(){
+    var productId = $(this).attr('data-product_id');
+    var url = '/add_to_cart/'+ productId;
+    ajaxUtils2(url, 'add_to_cart');
 });
 
 

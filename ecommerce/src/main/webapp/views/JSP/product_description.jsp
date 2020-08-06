@@ -1,13 +1,17 @@
 <!DOCTYPE html>
+<%@ include file = "header.jsp" %>
 <html>
     <head>
         <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Quicksand'>
         <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Raleway'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
+        #productDescriptionMain {
+        width: 90%;
+        margin: 5% auto 0% auto;
+        }
         </style>
     </head>
-    <%@ include file = "header.jsp" %>
     <body>
         <div id="productDescriptionMain" class="container">
             <div id="productDiv">
@@ -49,9 +53,10 @@
                 </div>
             </div>
             <div id="productButtonsDiv">
-                <button type="button" class="btn btn-primary" id="add_to_wishlist">Add to wishlist</button><br><br>
-                <button type="button" class="btn btn-primary" id="add_to_cart">Add to cart</button><br><br>
-                <button type="button" class="btn btn-success" id="purchase">Purchase</button><br><br>
+                <button type="button" class="btn btn-primary" id="add_to_wishlist" data-product_id="${product.productId}">Add to wishlist</button><br><br>
+                <button type="button" class="btn btn-primary" id="add_to_cart" data-product_id="${product.productId}">
+                Add to cart</button><br><br>
+                <button type="button" class="btn btn-success" id="purchase" data-product_id="${product.productId}">Purchase</button><br><br>
             </div>
         </div>
     </body>

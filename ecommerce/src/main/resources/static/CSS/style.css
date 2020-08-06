@@ -954,10 +954,10 @@ html {
 #Profile {
 }
 
-#WishlistDiv{
+#WishlistDiv {
   position: fixed;
-  left: 20px;
-  top: 100px;
+  left: 1.5%;
+  top: 12%;
   background-image: linear-gradient(to right, #f46554, #f4506b);
   border-radius: 50%;
   width: 60px;
@@ -968,12 +968,77 @@ html {
   justify-content: center;
   box-shadow: 0px 0px 6px 2px #2c2e2f;
 }
-#WishlistDiv:hover{
+
+#WishlistDiv:hover {
   box-shadow: 0px 0px 5px 2px #575757;
 }
-#WishlistDiv a{
+
+#WishlistDiv a {
   color: white;
-}  
+}
+
+#banner {
+  position: fixed;
+  top: 11%;
+  left: 35%;
+  max-width: 50%;
+  z-index: 1;
+  border-radius: 5px;
+  padding: 1%;
+  text-align: center;
+}
+
+.banner_animate {
+  animation-name: banner_animation;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes banner_animation {
+  0% {
+    left: 35%;
+    top: 10%;
+    opacity: 0;
+  }
+
+  10% {
+    left: 35%;
+    top: 11%;
+    opacity: 1;
+  }
+
+  50% {
+    left: 35%;
+    top: 11%;
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    left: 70%;
+  }
+
+}
+
+.banner_success {
+  color: #155724;
+  background-color: #d4edda;
+}
+
+.banner_error {
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+.banner_warning {
+  color: #856404;
+  background-color: #fff3cd;
+}
+
+.banner_info {
+  color: #004085;
+  background-color: #cce5ff;
+}
 
 /*header.jsp css ends*/
 
@@ -1029,10 +1094,10 @@ html {
 
 /*product_description.jso css starts*/
 
-#productDescriptionMain {
+/*#productDescriptionMain {
   width: 90%;
-  margin: 7% auto 0% auto;
-}
+  margin: 5% auto 0% auto;
+}*/
 
 #productDiv {
   width: 85%;

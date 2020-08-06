@@ -170,17 +170,18 @@ public class ApplicationController {
     // Wishlist Controller
 
     @GetMapping("/add_to_wishlist/{productId}/{wishListId}")
-    public @ResponseBody String add_to_wishlist(@PathVariable String productId, @PathVariable String wishListId,HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody List<String> add_to_wishlist(@PathVariable String productId, @PathVariable String wishListId,HttpServletRequest request, ModelMap modelMap){
+        List<String> result = new ArrayList<String>();
 
         Optional<Product> optional_product = productService.findByProductId(Long.parseLong(productId));
 
         if(optional_product.isPresent()){
             Product product = optional_product.get();
-            User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
+
             WishList wishList;
 
-            if(logged_in_user != null){
+            if(request.getUserPrincipal() != null){
+                User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
                 wishList = ordersService.getWishlistByUser(logged_in_user);
                 if(wishList == null){
                     wishList = new WishList(logged_in_user);
@@ -198,21 +199,26 @@ public class ApplicationController {
 
             List<Product> productList = wishList.getProductList();
             if(productList.contains(product)){
-                return "This product is already added to wishlist!";
+                result.add("warning");
+                result.add("This product is already added to wishlist!");
+                return result;
             }
             productList.add(product);
             wishList.setProductList(productList);
 
             ordersService.saveWishList(wishList);
-            result = "yes";
+            result.add("success");
+            result.add("Added to wishlist successfully!");
 
-            if(logged_in_user == null){
+            if(request.getUserPrincipal() == null){
                 /*myboject = repository.save(myboject);repository.flush();*/
-                modelMap.addAttribute("wishlist_id",wishList.getWishListId());
+                result.add(String.valueOf(wishList.getWishListId()));
             }
         }
         else{
-            return "Sorry! This product doesn't exists anymore!!";
+            result.add("error");
+            result.add("Sorry! This product doesn't exists anymore!!");
+            return result;
         }
 
         return result;
@@ -380,10 +386,10 @@ public class ApplicationController {
     @GetMapping("/get_wishlist_products/{wishlistId}")
     public @ResponseBody List<Product> get_wishlist_products(@PathVariable String wishlistId, HttpServletRequest request, ModelMap modelMap){
 
-        User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
         WishList wishList = null;
 
-        if(logged_in_user != null){
+        if(request.getUserPrincipal() != null){
+            User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
             wishList = ordersService.getWishlistByUser(logged_in_user);
             return wishList.getProductList();
         }
@@ -407,11 +413,12 @@ public class ApplicationController {
 
 
     @GetMapping("/add_to_cart/{productId}")
-    public @ResponseBody String add_to_cart(@PathVariable String productId, HttpServletRequest request, ModelMap modelMap){
-        String result = "no";
+    public @ResponseBody List<String> add_to_cart(@PathVariable String productId, HttpServletRequest request, ModelMap modelMap){
+        List<String> result = new ArrayList<String>();
 
-        User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
-        if(logged_in_user != null){
+
+        if(request.getUserPrincipal() != null){
+            User logged_in_user = userService.findByUserUserName(request.getUserPrincipal().getName());
             Optional<Product> optionalProduct = productService.findByProductId(Long.parseLong(productId));
 
             if(optionalProduct.isPresent()){
@@ -425,14 +432,17 @@ public class ApplicationController {
                 cart.setProductList(productList);
 
                 ordersService.saveCart(cart);
-                result = "yes";
+                result.add("success");
+                result.add("Added to cart successfully");
             }
             else{
-                return "Sorry! This product doesn't exists anymore!!";
+                result.add("error");
+                result.add("Sorry! This product doesn't exists anymore!!");
             }
         }
         else{
-            return  "Please Log in to manage your cart";
+            result.add("error");
+            result.add("Please Log in to manage your cart");
         }
         return result;
     }
