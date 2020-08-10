@@ -32,7 +32,14 @@ public class ApplicationController {
     ActiveUserStore activeUserStore;
 
     @RequestMapping("/")
-    public String home(ModelMap modelMap){
+    public String home(ModelMap modelMap, HttpServletRequest request){
+
+        if(request.getUserPrincipal() == null){
+            modelMap.addAttribute("login_check", "success");
+        }
+        else{
+            modelMap.addAttribute("login_check", "error");
+        }
         Long min_rating = 3L;
         List<Product> top_products = productService.findByProductRatingGreaterThanEqual(min_rating);
         modelMap.addAttribute("top_products", top_products);

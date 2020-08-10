@@ -162,12 +162,12 @@
         <a class="alink" href="/"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i></a>
       </div>
       <div class="nav_btn col">
-        <% String username= (String) session.getAttribute("user");
-        if (username == null) { %>
+        <c:if test="${login_check == 'success'}">
         <a class="alink" href="/login">Login</a>
-        <% } else { %>
+        </c:if>
+        <c:if test="${login_check == 'error'}">
         <a class="alink" href="/logout">Logout</a>
-        <% }%>
+        </c:if>
       </div>
     </div>
   </div>
